@@ -1,11 +1,8 @@
 <resources>
     <string name="app_name">usersTasksRestApi</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_user_detials">UserDetials</string>
-    <string name="username">Username</string>
-    <string name="git_profile_url">GitHub Profile URL</string>
-    <string name="user_name_full">%s</string>
-    <string name="user_url_full">%s</string>
-    <string name="user_name">Anass</string>
-    <string name="user_url">http://github.com/mranasspro</string>
+    <string name="title_activity_user_details">UserDetails</string>
+    <string name="name">Anass Radi</string>
+    <string name="username">MRANASSPRO</string>
+    <string name="email">mranassradi@gmail.com</string>
 </resources>
