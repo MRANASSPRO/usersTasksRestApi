@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.userstasksrestapi.model.Task;
+import com.example.userstasksrestapi.model.User;
 
 import java.util.List;
 
@@ -29,20 +30,21 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
         this.taskList = taskList;
     }
 
+    @NonNull
     @Override
-    public TaskAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.taskslist_item, parent, false);
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View itemView = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.taskslist_item, viewGroup, false);
 
         return new TaskAdapter.MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
-        final Task task = taskList.get(position);
+    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
+        final Task task = taskList.get(i);
 
         myViewHolder.taskTitle.setText(task.getTitle());
-        myViewHolder.taskCompleted.setText(String.valueOf(task.isCompleted()));
+        myViewHolder.taskTitle.setText(String.valueOf(task.isCompleted()));
     }
 
     @Override
@@ -58,6 +60,5 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
 
     /*@Override
     public void onBindViewHolder(@NonNull TaskAdapter.MyViewHolder myViewHolder, int i) {
-
     }*/
 }

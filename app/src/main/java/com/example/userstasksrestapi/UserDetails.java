@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -30,10 +31,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class UserDetails extends AppCompatActivity {
 
-    private TextView taskTitle, taskCompleted;
     private RecyclerView recyclerViewTask;
     private TaskAdapter adapterTask;
-    private CoordinatorLayout coordinatorLayout;
+    private CoordinatorLayout coordinatorLayoutTask;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -44,38 +44,28 @@ public class UserDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        coordinatorLayoutTask = (CoordinatorLayout) findViewById(R.id.coordinator_layout2);
         recyclerViewTask = (RecyclerView) findViewById(R.id.recycler_tasks_list);
-
+        GridLayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        recyclerViewTask.setHasFixedSize(true);
+        recyclerViewTask.setLayoutManager(layoutManager);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        taskTitle = (TextView) findViewById(R.id.taskTitle);
-        taskCompleted = (TextView) findViewById(R.id.taskCompleted);
-
         //getting intent extra
         final User user = (User) getIntent().getSerializableExtra("user");
-        //Task task = (Task) getIntent().getSerializableExtra("task");
 
-        /*
-        taskTitle.setText(getString(R.string.taskTitle, task.getTitle()));
-        taskCompleted.setText(String.valueOf(task.isCompleted()));
-        */
+        /*taskTitle = (TextView) findViewById(R.id.taskTitle);
+        taskCompleted = (TextView) findViewById(R.id.taskCompleted);*/
 
         //checking for network connectivity
         if (!isNetworkAvailable()) {
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "No Network connection", Snackbar.LENGTH_LONG)
+                    .make(coordinatorLayoutTask, "No Network connection",
+                            Snackbar.LENGTH_LONG)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -87,6 +77,9 @@ public class UserDetails extends AppCompatActivity {
         } else {
             fetchUsersTasks(user.getId());
         }
+
+        /*taskTitle.setText(getString(R.string.taskTitle));
+        taskCompleted.setText(getString(R.string.taskCompleted));*/
     }
 
     private void prepareData(List<Task> taskList) {
@@ -98,7 +91,7 @@ public class UserDetails extends AppCompatActivity {
     private void fetchUsersTasks(int id) {
         int searchParams = id;
         RestApiCaller apiService = new RestApiBuilder().getService();
-        Call<List<Task>> TaskListCall = apiService.getTaskByUser(id);
+        Call<List<Task>> TaskListCall = apiService.getTaskByUser(searchParams);
 
         TaskListCall.enqueue(new Callback<List<Task>>() {
             @Override
@@ -130,12 +123,5 @@ public class UserDetails extends AppCompatActivity {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
-    private CustomTabsIntent getCustomTabIntentInstance() {
-        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        return builder.build();
-    }
-
 }
 
