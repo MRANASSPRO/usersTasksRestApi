@@ -44,7 +44,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
         final Task task = taskList.get(i);
 
         myViewHolder.taskTitle.setText(task.getTitle());
-        myViewHolder.taskTitle.setText(String.valueOf(task.isCompleted()));
+        myViewHolder.taskCompleted.setText(String.valueOf(task.isCompleted()));
     }
 
     @Override
