@@ -1,12 +1,11 @@
 package com.example.userstasksrestapi.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     @SerializedName("id")
     @Expose
@@ -24,12 +23,11 @@ public class User {
     @Expose
     private String email;
 
-    protected User(int id, String name, String username, String email/*Parcel in*/) {
+    protected User(int id, String name, String username, String email) {
         id = this.id;
         name = this.name;
         username = this.username;
         email = this.email;
-
     }
 
     public Integer getId() {

@@ -1,39 +1,49 @@
-/*
 package com.example.userstasksrestapi;
 
 import android.content.Context;
-import android.net.Uri;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.util.Linkify;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import me.saket.bettermovementmethod.BetterLinkMovementMethod;
+import com.example.userstasksrestapi.model.Task;
 import com.example.userstasksrestapi.model.User;
-import com.example.userstasksrestapi.util.ShareUtils;
+import com.example.userstasksrestapi.service.RestApiBuilder;
+import com.example.userstasksrestapi.service.RestApiCaller;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class UserDetails extends AppCompatActivity {
 
-    private TextView user_name_details, user_github_url;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private TextView taskTitle, taskCompleted;
+    private RecyclerView recyclerViewTask;
+    private TaskAdapter adapterTask;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_details);
+        setContentView(R.layout.activity_second);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -41,34 +51,87 @@ public class UserDetails extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareProfile();
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
+        recyclerViewTask = (RecyclerView) findViewById(R.id.recycler_tasks_list);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        collapsingToolbarLayout.setTitle("");
-
-        user_name_details = (TextView) findViewById(R.id.user_name_details);
-        user_github_url = (TextView) findViewById(R.id.github_profile_url);
+        taskTitle = (TextView) findViewById(R.id.taskTitle);
+        taskCompleted = (TextView) findViewById(R.id.taskCompleted);
 
         //getting intent extra
-        User user = getIntent().getParcelableExtra("user");
+        final User user = (User) getIntent().getSerializableExtra("user");
+        //Task task = (Task) getIntent().getSerializableExtra("task");
 
+        /*final User user = getIntent().getParcelableExtra("user");
+        Task task = getIntent().getParcelableExtra("task");*/
 
-        user_name_details.setText(getString(R.string.user_name_full, user.getLogin()));
-        user_github_url.setText(getString(R.string.user_url_full, user.getHtmlUrl()));
+        /*
+        taskTitle.setText(getString(R.string.taskTitle, task.getTitle()));
+        taskCompleted.setText(String.valueOf(task.isCompleted()));
+        */
 
+        //checking for network connectivity
+        if (!isNetworkAvailable()) {
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No Network connection", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            fetchUsersTasks(user.getId());
+                        }
+                    });
 
-        BetterLinkMovementMethod movementMethod = BetterLinkMovementMethod.linkify(Linkify.WEB_URLS, user_github_url);
-        movementMethod.setOnLinkClickListener(new BetterLinkMovementMethod.OnLinkClickListener() {
+            snackbar.show();
+        } else {
+            fetchUsersTasks(user.getId());
+        }
+    }
+
+    private void prepareData(List<Task> taskList) {
+        adapterTask = new TaskAdapter(taskList);
+        recyclerViewTask.setAdapter(adapterTask);
+
+    }
+
+    private void fetchUsersTasks(int id) {
+        int searchParams = id;
+        RestApiCaller apiService = new RestApiBuilder().getService();
+        Call<List<Task>> TaskListCall = apiService.getTaskByUser(id);
+
+        TaskListCall.enqueue(new Callback<List<Task>>() {
             @Override
-            public boolean onClick(TextView textView, String url) {
-                getCustomTabIntentInstance().launchUrl(UserDetails.this, Uri.parse(url));
-                return true;
+            public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
+                if (response.isSuccessful()) {
+                    List<Task> taskList = response.body();
+                    prepareData(taskList);
+                } else {
+
+                    Toast.makeText(UserDetails.this,
+                            "Bad Request!",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Task>> call, Throwable t) {
+                Toast.makeText(UserDetails.this,
+                        "Request Failed!",
+                        Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     private CustomTabsIntent getCustomTabIntentInstance() {
@@ -77,15 +140,5 @@ public class UserDetails extends AppCompatActivity {
         return builder.build();
     }
 
-    private void shareProfile() {
-
-        User user = getIntent().getParcelableExtra("user");
-
-
-        String message = "Check out this awesome developer @" + user.getLogin() + ", " + user.getUrl();
-
-        ShareUtils.shareCustom(message, this);
-
-    }
 }
-*/
+

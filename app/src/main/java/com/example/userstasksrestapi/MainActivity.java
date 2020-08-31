@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -33,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private UserAdapter adapter;
     private CoordinatorLayout coordinatorLayout;
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -89,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void fetchUsersData() {
-        //String searchParams = "language:java location:.....";
         RestApiCaller service = RestApiBuilder.getRetrofitInstance().create(RestApiCaller.class);
         Call<List<User>> call = service.getUserList();
 
@@ -104,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
 
                     Toast.makeText(MainActivity.this,
-                            "Request not Sucessful",
+                            "Bad Request!",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -112,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
                 Toast.makeText(MainActivity.this,
-                        "Request Failed. Check your internet connection",
+                        "Request Failed!",
                         Toast.LENGTH_SHORT).show();
             }
         });

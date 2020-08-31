@@ -1,5 +1,7 @@
 package com.example.userstasksrestapi;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +24,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
             name = (TextView) view.findViewById(R.id.name);
             username = (TextView) view.findViewById(R.id.username);
             email = (TextView) view.findViewById(R.id.email);
-
         }
     }
 
@@ -46,24 +47,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
         holder.username.setText(user.getUsername());
         holder.email.setText(user.getEmail());
 
-
-        //Loading the image using Glide
-        //Context context = holder.user_profile_avatar.getContext();
-        //Glide.with(context).load(user.getAvatarUrl()).into(holder.user_profile_avatar);
-
-
-        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Context context = holder.itemView.getContext();
-                //pass taches data of the user into intent (next activity)
+                //pass tasks data of the user into intent (next activity)
                 //TODO
-                //Intent intent = new Intent(context, UserDetails.class);
-                //intent.putExtra("user", user);
-                //context.startActivity(intent);
-
+                Intent intent = new Intent(context, UserDetails.class);
+                intent.putExtra("user", user);
+                context.startActivity(intent);
             }
-        });*/
+        });
 
     }
 

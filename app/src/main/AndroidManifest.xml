@@ -22,9 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity
+        <activity
             android:name=".UserDetails"
-            android:label="@string/title_activity_user_detials"
+            android:label="@string/title_activity_Tasks"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -36,7 +36,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>-->
+        </activity>
     </application>
 
 </manifest>
