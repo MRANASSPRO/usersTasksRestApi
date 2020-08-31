@@ -3,7 +3,7 @@
     <string name="name">Anass Radi</string>
     <string name="username">MRANASSPRO</string>
     <string name="email">mranassradi@gmail.com</string>
-    <string name="taskTitle">%s</string>
-    <string name="taskCompleted">%s</string>
+    <string name="taskTitle">quis ut nam facilis et officia qui</string>
+    <string name="taskCompleted">false</string>
     <string name="title_activity_Tasks">UserDetails</string>
 </resources>

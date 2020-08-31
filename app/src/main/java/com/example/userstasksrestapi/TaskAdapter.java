@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.userstasksrestapi.model.Task;
-import com.example.userstasksrestapi.model.User;
 
 import java.util.List;
 
@@ -61,6 +60,4 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
     public void onBindViewHolder(@NonNull TaskAdapter.MyViewHolder myViewHolder, int i) {
 
     }*/
-
-
 }
