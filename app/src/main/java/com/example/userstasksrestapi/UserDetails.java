@@ -67,9 +67,6 @@ public class UserDetails extends AppCompatActivity {
         final User user = (User) getIntent().getSerializableExtra("user");
         //Task task = (Task) getIntent().getSerializableExtra("task");
 
-        /*final User user = getIntent().getParcelableExtra("user");
-        Task task = getIntent().getParcelableExtra("task");*/
-
         /*
         taskTitle.setText(getString(R.string.taskTitle, task.getTitle()));
         taskCompleted.setText(String.valueOf(task.isCompleted()));
