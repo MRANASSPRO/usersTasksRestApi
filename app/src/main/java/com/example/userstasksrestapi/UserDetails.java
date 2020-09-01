@@ -1,8 +1,6 @@
 package com.example.userstasksrestapi;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -17,6 +15,7 @@ import com.example.userstasksrestapi.model.Task;
 import com.example.userstasksrestapi.model.User;
 import com.example.userstasksrestapi.service.RestApiBuilder;
 import com.example.userstasksrestapi.service.RestApiService;
+import com.example.userstasksrestapi.utils.Utils;
 import com.example.userstasksrestapi.view.TaskAdapter;
 
 import java.util.List;
@@ -39,28 +38,32 @@ public class UserDetails extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //create and launch the second activity
         super.onCreate(savedInstanceState);
-        Context mContext = getApplicationContext();
         setContentView(R.layout.activity_second);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
         coordinatorLayoutTask = (CoordinatorLayout) findViewById(R.id.coordinator_layout2);
         recyclerViewTask = (RecyclerView) findViewById(R.id.recycler_tasks_list);
-        GridLayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),
+                2);
         recyclerViewTask.setHasFixedSize(true);
         recyclerViewTask.setLayoutManager(layoutManager);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        //getting the intent passed in from main activity
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+
+        //get the intent from main activity
         final User user = (User) getIntent().getSerializableExtra("user");
 
-        //checking for internet connectivity
-        if (!isNetworkAvailable()) {
+        //check for network connectivity
+        if (!Utils.isConnected(getApplicationContext())) {
             Snackbar snackbar = Snackbar
                     .make(coordinatorLayoutTask, "No Network connection",
                             Snackbar.LENGTH_LONG)
+
+                    //request tasks data when offline
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -74,6 +77,7 @@ public class UserDetails extends AppCompatActivity {
         }
     }
 
+    //set the tasks data on the view with an adapter
     private void prepareData(List<Task> taskList) {
         adapterTask = new TaskAdapter(taskList);
         recyclerViewTask.setAdapter(adapterTask);
@@ -81,6 +85,7 @@ public class UserDetails extends AppCompatActivity {
     }
 
     private void fetchUsersTasks(int id) {
+        //retrieve the user id and save it
         int queryParams = id;
         RestApiService apiService = new RestApiBuilder(this).getService();
         Call<List<Task>> TaskListCall = apiService.getTaskByUser(queryParams);
@@ -93,6 +98,7 @@ public class UserDetails extends AppCompatActivity {
                     prepareData(taskList);
                 } else {
 
+                    //request format error
                     Toast.makeText(UserDetails.this,
                             "Bad Request!",
                             Toast.LENGTH_SHORT).show();
@@ -108,12 +114,4 @@ public class UserDetails extends AppCompatActivity {
         });
 
     }
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
 }
-

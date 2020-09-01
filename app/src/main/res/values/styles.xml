@@ -18,14 +18,3 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
-
-    <!--<resources>
-        &lt;!&ndash; Base application theme. &ndash;&gt;
-        <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-            &lt;!&ndash; Customize your theme here. &ndash;&gt;
-            <item name="colorPrimary">@color/colorPrimary</item>
-            <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-            <item name="colorAccent">@color/colorAccent</item>
-        </style>
-
-    </resources>-->

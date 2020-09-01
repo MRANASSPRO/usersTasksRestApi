@@ -1,7 +1,5 @@
 package com.example.userstasksrestapi;
 
-//import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -32,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private UserAdapter adapter;
     private CoordinatorLayout coordinatorLayout;
-    private RestApiBuilder restApiBuilder;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -41,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //create and launch the main activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -48,15 +46,18 @@ public class MainActivity extends AppCompatActivity {
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_user_list);
-        GridLayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),
+                2);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
-
-        //checking for network connectivity
+        //check for network connectivity
         if (!isNetworkAvailable()) {
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "No Network connection", Snackbar.LENGTH_LONG)
+                    .make(coordinatorLayout, "No Network connection",
+                            Snackbar.LENGTH_LONG)
+
+                    //request users data when offline
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //set the users data on the view with an adapter
     private void prepareData(List<User> usersList) {
         adapter = new UserAdapter(usersList);
         recyclerView.setAdapter(adapter);
@@ -90,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     prepareData(userList);
                 } else {
 
+                    //request format error
                     Toast.makeText(MainActivity.this,
                             "Bad Request!",
                             Toast.LENGTH_SHORT).show();

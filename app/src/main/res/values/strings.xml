@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">usersTasksRestApi</string>
+    <string name="app_name">Random Users</string>
     <string name="name">Anass Radi</string>
     <string name="username">MRANASSPRO</string>
     <string name="email">mranassradi@gmail.com</string>
     <string name="taskTitle">quis ut nam facilis et officia qui</string>
-    <string name="taskCompleted">%s</string>
-    <string name="title_activity_Tasks">UserDetails</string>
+    <string name="taskCompleted">true</string>
+    <string name="title_activity_Tasks">List of Tasks</string>
 </resources>

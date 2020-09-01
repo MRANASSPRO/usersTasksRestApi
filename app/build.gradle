@@ -3,8 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
-    //compileSdkVersion 29
-    //buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.example.userstasksrestapi"
@@ -14,8 +12,6 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        //targetSdkVersion 29
-        //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {

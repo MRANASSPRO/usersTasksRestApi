@@ -54,7 +54,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
             public void onClick(View view) {
                 Context context = holder.itemView.getContext();
                 //pass tasks data of the user into intent (next activity)
-                //TODO
                 Intent intent = new Intent(context, UserDetails.class);
                 intent.putExtra("user", user);
                 context.startActivity(intent);

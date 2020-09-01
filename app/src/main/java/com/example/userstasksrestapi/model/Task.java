@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-//TODO
 public class Task implements Serializable {
 
     @SerializedName("id")
@@ -38,16 +37,8 @@ public class Task implements Serializable {
         return title;
     }
 
-    public void setTitle(String name) {
-        this.title = title;
-    }
-
     public boolean isCompleted() {
         return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
     }
 
 }
