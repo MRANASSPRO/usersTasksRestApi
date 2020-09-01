@@ -51,14 +51,4 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
     public int getItemCount() {
         return taskList.size();
     }
-
-    /*@NonNull
-    @Override
-    public TaskAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return null;
-    }*/
-
-    /*@Override
-    public void onBindViewHolder(@NonNull TaskAdapter.MyViewHolder myViewHolder, int i) {
-    }*/
 }

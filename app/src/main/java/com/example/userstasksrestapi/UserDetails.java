@@ -40,6 +40,7 @@ public class UserDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Context mContext = getApplicationContext();
         setContentView(R.layout.activity_second);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
@@ -52,10 +53,10 @@ public class UserDetails extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        //getting intent from main activity
+        //getting the intent passed in from main activity
         final User user = (User) getIntent().getSerializableExtra("user");
 
-        //checking for network connectivity
+        //checking for internet connectivity
         if (!isNetworkAvailable()) {
             Snackbar snackbar = Snackbar
                     .make(coordinatorLayoutTask, "No Network connection",
@@ -80,9 +81,9 @@ public class UserDetails extends AppCompatActivity {
     }
 
     private void fetchUsersTasks(int id) {
-        int searchParams = id;
-        RestApiService apiService = new RestApiBuilder().getService();
-        Call<List<Task>> TaskListCall = apiService.getTaskByUser(searchParams);
+        int queryParams = id;
+        RestApiService apiService = new RestApiBuilder(this).getService();
+        Call<List<Task>> TaskListCall = apiService.getTaskByUser(queryParams);
 
         TaskListCall.enqueue(new Callback<List<Task>>() {
             @Override

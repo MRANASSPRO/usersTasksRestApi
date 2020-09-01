@@ -10,6 +10,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface RestApiService {
+
     @GET("/users")
     Call<List<User>> getUserList();
 

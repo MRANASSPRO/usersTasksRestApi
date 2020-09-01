@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private UserAdapter adapter;
     private CoordinatorLayout coordinatorLayout;
+    private RestApiBuilder restApiBuilder;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -76,9 +77,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchUsersData() {
-        RestApiBuilder.getRetrofitInstance().create(RestApiService.class).getUserList();
+        RestApiBuilder.getRetrofitInstance(this)
+                .create(RestApiService.class).getUserList();
 
-        RestApiService apiService = new RestApiBuilder().getService();
+        RestApiService apiService = new RestApiBuilder(this).getService();
         Call<List<User>> userListCall = apiService.getUserList();
         userListCall.enqueue(new Callback<List<User>>() {
             @Override
