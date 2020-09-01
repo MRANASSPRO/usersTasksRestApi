@@ -14,8 +14,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="7dp"
-            android:paddingTop="7dp">
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp">
 
             <TextView
                 android:id="@+id/name"
@@ -23,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="5dp"
+                android:gravity="center"
                 android:text="@string/name"
                 android:textColor="@color/text_black"
                 android:textSize="15sp" />

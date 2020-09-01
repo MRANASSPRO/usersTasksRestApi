@@ -4,23 +4,20 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.userstasksrestapi.model.Task;
 import com.example.userstasksrestapi.model.User;
 import com.example.userstasksrestapi.service.RestApiBuilder;
-import com.example.userstasksrestapi.service.RestApiCaller;
+import com.example.userstasksrestapi.service.RestApiService;
+import com.example.userstasksrestapi.view.TaskAdapter;
 
 import java.util.List;
 
@@ -55,11 +52,8 @@ public class UserDetails extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        //getting intent extra
+        //getting intent from main activity
         final User user = (User) getIntent().getSerializableExtra("user");
-
-        /*taskTitle = (TextView) findViewById(R.id.taskTitle);
-        taskCompleted = (TextView) findViewById(R.id.taskCompleted);*/
 
         //checking for network connectivity
         if (!isNetworkAvailable()) {
@@ -77,9 +71,6 @@ public class UserDetails extends AppCompatActivity {
         } else {
             fetchUsersTasks(user.getId());
         }
-
-        /*taskTitle.setText(getString(R.string.taskTitle));
-        taskCompleted.setText(getString(R.string.taskCompleted));*/
     }
 
     private void prepareData(List<Task> taskList) {
@@ -90,7 +81,7 @@ public class UserDetails extends AppCompatActivity {
 
     private void fetchUsersTasks(int id) {
         int searchParams = id;
-        RestApiCaller apiService = new RestApiBuilder().getService();
+        RestApiService apiService = new RestApiBuilder().getService();
         Call<List<Task>> TaskListCall = apiService.getTaskByUser(searchParams);
 
         TaskListCall.enqueue(new Callback<List<Task>>() {

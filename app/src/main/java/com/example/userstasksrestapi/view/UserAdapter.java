@@ -1,4 +1,4 @@
-package com.example.userstasksrestapi;
+package com.example.userstasksrestapi.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.userstasksrestapi.R;
+import com.example.userstasksrestapi.UserDetails;
 import com.example.userstasksrestapi.model.User;
 
 import java.util.List;

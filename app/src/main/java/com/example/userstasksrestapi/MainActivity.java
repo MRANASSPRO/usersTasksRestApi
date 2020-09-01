@@ -17,7 +17,8 @@ import android.widget.Toast;
 
 import com.example.userstasksrestapi.model.User;
 import com.example.userstasksrestapi.service.RestApiBuilder;
-import com.example.userstasksrestapi.service.RestApiCaller;
+import com.example.userstasksrestapi.service.RestApiService;
+import com.example.userstasksrestapi.view.UserAdapter;
 
 import java.util.List;
 
@@ -68,19 +69,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     private void prepareData(List<User> usersList) {
         adapter = new UserAdapter(usersList);
         recyclerView.setAdapter(adapter);
 
     }
 
-
     private void fetchUsersData() {
-        RestApiCaller service = RestApiBuilder.getRetrofitInstance().create(RestApiCaller.class);
-        Call<List<User>> call = service.getUserList();
+        RestApiBuilder.getRetrofitInstance().create(RestApiService.class).getUserList();
 
-        RestApiCaller apiService = new RestApiBuilder().getService();
+        RestApiService apiService = new RestApiBuilder().getService();
         Call<List<User>> userListCall = apiService.getUserList();
         userListCall.enqueue(new Callback<List<User>>() {
             @Override

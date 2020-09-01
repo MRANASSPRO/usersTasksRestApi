@@ -7,14 +7,12 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface RestApiCaller {
+public interface RestApiService {
     @GET("/users")
     Call<List<User>> getUserList();
 
-    //@GET("/todos?userId={userId}")
     @GET("/todos")
     Call<List<Task>> getTaskByUser(@Query("userId") int userId);
 }
